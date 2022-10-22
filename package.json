@@ -4,5 +4,12 @@
   "version": "3.6.1",
   "creator": {
     "version": "3.6.1"
+  },
+  "scripts": {
+    "deploy": "gh-pages -d build/web-desktop"
+  },
+  "description": "The_Dark game",
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }

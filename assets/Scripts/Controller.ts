@@ -7,6 +7,8 @@ import {
   EventKeyboard,
   KeyCode,
   Animation,
+  RigidBody2D,
+  Vec2,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -24,6 +26,8 @@ export class Controller extends Component {
 
   animation: Animation;
 
+  rigidBody: RigidBody2D
+
   onLoad() {
     // PhysicsSystem2D.instance.debugDrawFlags =
     //   EPhysics2DDrawFlags.Aabb |
@@ -36,6 +40,7 @@ export class Controller extends Component {
     input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
     const sprite = this.node.getChildByName("Sprite");
     this.animation = sprite.getComponent(Animation);
+    this.rigidBody = this.node.getComponent(RigidBody2D);
   }
 
   onKeyDown(event: EventKeyboard) {
@@ -61,10 +66,11 @@ export class Controller extends Component {
         this.node.scale = new Vec3(1, 1, 1);
         break;
       case KeyCode.ARROW_UP:
-        this.yAmmount = 100;
+        // this.yAmmount = 10;
+        this.rigidBody.applyForceToCenter(new Vec2(0, 1000), false);
         break;
       case KeyCode.ARROW_DOWN:
-        this.yAmmount = -100;
+        // this.yAmmount = -1;
         break;
     }
   }
@@ -75,12 +81,17 @@ export class Controller extends Component {
     this.animation.play("idle");
   }
   update(deltaTime: number) {
-    this.node.translate(
-      new Vec3(
-        this.xAmmount * deltaTime * this.speed,
-        this.yAmmount * deltaTime * this.speed,
-        0
-      )
+    // this.node.translate(
+    //   new Vec3(
+    //     this.xAmmount * deltaTime * this.speed,
+    //     this.yAmmount * deltaTime * this.speed,
+    //     0
+    //   )
+    // );
+    // set velocity
+    this.rigidBody.linearVelocity = new Vec2(
+      this.xAmmount,
+      this.yAmmount
     );
   }
 }
